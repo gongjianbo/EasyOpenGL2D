@@ -1,5 +1,7 @@
 #include "CircleProgressBar.h"
 
+#include <QPainter>
+
 CircleProgressBar::CircleProgressBar(QWidget *parent)
     : QOpenGLWidget(parent)
 {
@@ -63,11 +65,13 @@ void CircleProgressBar::initializeGL()
                            thePos = aPos;
                            })";
     //GLSL没有atan2函数么？自己写了一个，不过最终结果为0-360度的归一化值[0,1]
+    //gl_FragColor在3移除了，自己声明一个
     const char *fragment_str=R"(#version 330 core
                              #define PI 3.14159265
                              #define OFFSET 0.01
                              uniform float aValue;
                              in vec2 thePos;
+                             out vec4 FragColor;
 
                              float myatan2(float y,float x)
                              {
@@ -107,9 +111,9 @@ void CircleProgressBar::initializeGL()
                              float angle = myatan2(thePos.y,thePos.x);
 
                              if(angle<aValue){
-                             gl_FragColor = vec4(1.0,0.1,(1.0-angle),alpha);
+                             FragColor = vec4(1.0,0.1,(1.0-angle),alpha);
                              }else{
-                             gl_FragColor = vec4(0.0,0.5,0.5,alpha);
+                             FragColor = vec4(0.4,0.1,0.6,alpha);
                              }
 
 
@@ -183,6 +187,14 @@ void CircleProgressBar::paintGL()
 
     _vao.release();
     _shaderProgram.release();
+
+    QPainter painter(this);
+    painter.setPen(Qt::white);
+    painter.setFont(QFont("Microsoft YaHei",16));
+    const QString text_val=QString::number(progress*100,'f',2)+" %";
+    const int text_x=width()/2-painter.fontMetrics().width(text_val)/2;
+    const int text_y=height()/2+painter.fontMetrics().height()/2;
+    painter.drawText(text_x,text_y,text_val);
 }
 
 void CircleProgressBar::resizeGL(int width, int height)
