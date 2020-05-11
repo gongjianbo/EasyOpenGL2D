@@ -66,10 +66,12 @@ void CircleProgressBar::initializeGL()
                            })";
     //GLSL没有atan2函数么？自己写了一个，不过最终结果为0-360度的归一化值[0,1]
     //gl_FragColor在3移除了，自己声明一个
+    //aSmoothWidth用来计算平滑所需宽度，根据不同的大小来计算
     const char *fragment_str=R"(#version 330 core
                              #define PI 3.14159265
                              #define OFFSET 0.01
                              uniform float aValue;
+                             uniform float aSmoothWidth;
                              in vec2 thePos;
                              out vec4 FragColor;
 
@@ -106,8 +108,7 @@ void CircleProgressBar::initializeGL()
                              void main()
                              {
                              float len = abs(sqrt(pow(thePos.x,2)+pow(thePos.y,2)));
-                             float alpha = abs(len-0.75);
-                             alpha = (alpha>0.15)?0.0:1.0;//((0.15-alpha)/0.15);
+                             float alpha = 1.0-smoothstep(0.15,0.15+aSmoothWidth,abs(len-0.75));
                              float angle = myatan2(thePos.y,thePos.x);
 
                              if(angle<aValue){
@@ -115,8 +116,6 @@ void CircleProgressBar::initializeGL()
                              }else{
                              FragColor = vec4(0.4,0.1,0.6,alpha);
                              }
-
-
                              })";
 
 
@@ -168,7 +167,7 @@ void CircleProgressBar::paintGL()
                item_w,
                item_w);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glEnable(GL_BLEND);
@@ -181,6 +180,8 @@ void CircleProgressBar::paintGL()
     //把进度[min,max]归一化[0,1]
     const float progress=_progressDraw/(_progressMax-_progressMin);
     _shaderProgram.setUniformValue("aValue", progress);
+    //aSmoothWidth用来计算平滑所需宽度，根据不同的大小来计算，这里用N px的宽度
+    _shaderProgram.setUniformValue("aSmoothWidth", float(3.0/item_w));
     _vao.bind();
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
