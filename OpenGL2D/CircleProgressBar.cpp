@@ -64,12 +64,11 @@ void CircleProgressBar::initializeGL()
                            gl_Position = vec4(aPos, 0.0, 1.0);
                            thePos = aPos;
                            })";
-    //GLSL没有atan2函数么？自己写了一个，不过最终结果为0-360度的归一化值[0,1]
+    //GLSL的atan2也叫atan，不过参数不同，我们封装一个0-360度的归一化值[0,1]的版本
     //gl_FragColor在3移除了，自己声明一个
     //aSmoothWidth用来计算平滑所需宽度，根据不同的大小来计算
     const char *fragment_str=R"(#version 330 core
                              #define PI 3.14159265
-                             #define OFFSET 0.01
                              uniform float aValue;
                              uniform float aSmoothWidth;
                              in vec2 thePos;
@@ -77,32 +76,14 @@ void CircleProgressBar::initializeGL()
 
                              float myatan2(float y,float x)
                              {
-                             float ret_val=0;
-
-                             if(x>0){
-                             ret_val=atan(y/x);
-                             }
-
-                             else if(x<0){
-                             if(y>=0){
-                             ret_val=PI+atan(y/x);
-                             }else{
-                             ret_val=-PI+atan(y/x);
+                             float ret_val=0.0;
+                             if(x!=0.0){
+                             ret_val=atan(y,x);
+                             if(ret_val<0.0){
+                             ret_val+=2.0*PI;
                              }
                              }
-
-                             else{
-                             if(y>0){
-                             ret_val =PI/2;
-                             }else if(y<0){
-                             ret_val=-PI/2;
-                             }
-                             }
-
-                             if(ret_val<0){
-                             ret_val=2*PI+ret_val;
-                             }
-                             return ret_val/(2*PI);
+                             return ret_val/(2.0*PI);
                              }
 
                              void main()
