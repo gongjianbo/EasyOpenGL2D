@@ -178,7 +178,7 @@ void CircleProgressBar::paintGL()
 
     _shaderProgram.bind();
     //把进度[min,max]归一化[0,1]
-    const float progress=_progressDraw/(_progressMax-_progressMin);
+    const float progress=(_progressDraw-_progressMin)/(_progressMax-_progressMin);
     _shaderProgram.setUniformValue("aValue", progress);
     //aSmoothWidth用来计算平滑所需宽度，根据不同的大小来计算，这里用N px的宽度
     _shaderProgram.setUniformValue("aSmoothWidth", float(3.0/item_w));
