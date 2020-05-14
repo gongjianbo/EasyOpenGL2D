@@ -76,24 +76,31 @@ void CircleProgressBar::initializeGL()
 
                              float myatan2(float y,float x)
                              {
-                             float ret_val=0.0;
-                             if(x!=0.0){
-                             ret_val=atan(y,x);
-                             if(ret_val<0.0){
-                             ret_val+=2.0*PI;
+                             float ret_val = 0.0;
+                             if(x != 0.0){
+                             ret_val = atan(y,x);
+                             if(ret_val < 0.0){
+                             ret_val += 2.0*PI;
                              }
+                             }else{
+                             ret_val = y>0 ? PI*0.5 : PI*1.5;
                              }
                              return ret_val/(2.0*PI);
                              }
 
                              void main()
                              {
-                             float len = abs(sqrt(pow(thePos.x,2)+pow(thePos.y,2)));
+                             float len = abs(sqrt(pow(thePos.x,2.0)+pow(thePos.y,2.0)));
                              float alpha = 1.0-smoothstep(0.15,0.15+aSmoothWidth,abs(len-0.75));
                              float angle = myatan2(thePos.y,thePos.x);
+                             float angle_smooth=1.0-smoothstep(aValue,aValue+aSmoothWidth/3.0,angle);
 
-                             if(angle<aValue){
+                             if(angle_smooth>0.0){
+                             if(angle_smooth>=1.0){
                              FragColor = vec4(1.0,0.1,(1.0-angle),alpha);
+                             }else{
+                             FragColor = vec4(mix(vec3(1.0,0.1,(1.0-angle)),vec3(0.4,0.1,0.6),1.0-angle_smooth),alpha);
+                             }
                              }else{
                              FragColor = vec4(0.4,0.1,0.6,alpha);
                              }
