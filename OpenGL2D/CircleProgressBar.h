@@ -9,6 +9,7 @@
 
 #include <QPropertyAnimation>
 
+//龚建波：环形进度条
 class CircleProgressBar : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
     Q_OBJECT
@@ -33,18 +34,18 @@ protected:
 
 private:
     //着色器程序
-    QOpenGLShaderProgram _shaderProgram;
+    QOpenGLShaderProgram shaderProgram;
     //顶点数组对象
-    QOpenGLVertexArrayObject _vao;
+    QOpenGLVertexArrayObject vao;
     //顶点缓冲
-    QOpenGLBuffer _vbo;
+    QOpenGLBuffer vbo;
     //属性动画
-    QPropertyAnimation *_animation;
+    QPropertyAnimation *animation;
     //进度值
-    double _progressMin=0;
-    double _progressMax=100;
-    double _progressValue=0; //设置的值
-    double _progressDraw=0; //绘制临时值
+    double progressMin=0;
+    double progressMax=100;
+    double progressValue=0; //设置的值
+    double progressDraw=0; //绘制临时值
 };
 
 #endif // CIRCLEPROGRESSBAR_H
