@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     initTabA();
+    initTabB();
 }
 
 MainWindow::~MainWindow()
@@ -17,10 +18,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::initTabA()
 {
-    ui->boxProgressValue->setValue(45);
+    //默认百分之45
+    ui->boxCircleValue->setValue(45);
     ui->glCirlcleProgress->setValue(45);
-    connect(ui->btnProgressSet,&QPushButton::clicked,this,[=]{
-        ui->glCirlcleProgress->setValue(ui->boxProgressValue->value());
+    //调节进度
+    connect(ui->btnCircleSet,&QPushButton::clicked,this,[=]{
+        ui->glCirlcleProgress->setValue(ui->boxCircleValue->value());
+    });
+}
+
+void MainWindow::initTabB()
+{
+    //默认百分之45
+    ui->boxWaveValue->setValue(45);
+    ui->glWaveProgress->setValue(45);
+    //调节进度
+    connect(ui->btnWaveSet,&QPushButton::clicked,this,[=]{
+        ui->glWaveProgress->setValue(ui->boxWaveValue->value());
     });
 }
 

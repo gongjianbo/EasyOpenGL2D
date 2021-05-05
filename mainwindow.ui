@@ -6,23 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>646</width>
-    <height>458</height>
+    <width>784</width>
+    <height>552</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>OpenGL 2D  by:龚建波1992</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabA">
        <attribute name="title">
-        <string>Progress</string>
+        <string>Circle</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
         <item>
@@ -41,14 +41,14 @@
            </spacer>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="boxProgressValue">
+           <widget class="QDoubleSpinBox" name="boxCircleValue">
             <property name="maximum">
              <double>100.000000000000000</double>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="btnProgressSet">
+           <widget class="QPushButton" name="btnCircleSet">
             <property name="text">
              <string>set</string>
             </property>
@@ -63,8 +63,44 @@
       </widget>
       <widget class="QWidget" name="tabB">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Wave</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,1">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="boxWaveValue">
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnWaveSet">
+            <property name="text">
+             <string>set</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="WaveProgressBar" name="glWaveProgress"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -75,7 +111,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>646</width>
+     <width>784</width>
      <height>23</height>
     </rect>
    </property>
@@ -87,6 +123,11 @@
    <class>CircleProgressBar</class>
    <extends>QOpenGLWidget</extends>
    <header>CircleProgressBar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>WaveProgressBar</class>
+   <extends>QOpenGLWidget</extends>
+   <header>WaveProgressBar.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
