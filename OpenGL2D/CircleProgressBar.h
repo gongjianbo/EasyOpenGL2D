@@ -1,6 +1,4 @@
-#ifndef CIRCLEPROGRESSBAR_H
-#define CIRCLEPROGRESSBAR_H
-
+#pragma once
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
@@ -40,12 +38,10 @@ private:
     //顶点缓冲
     QOpenGLBuffer vbo;
     //属性动画
-    QPropertyAnimation *animation;
+    QPropertyAnimation *animation{ nullptr };
     //进度值
-    double progressMin=0;
-    double progressMax=100;
-    double progressValue=0; //设置的值
-    double progressDraw=0; //绘制临时值
+    double progressMin{ 0 };
+    double progressMax{ 100 };
+    double progressValue{ 0 }; //设置的值
+    double progressDraw{ 0 }; //绘制临时值
 };
-
-#endif // CIRCLEPROGRESSBAR_H

@@ -13,6 +13,9 @@ CircleProgressBar::CircleProgressBar(QWidget *parent)
 
 CircleProgressBar::~CircleProgressBar()
 {
+    //显示后才会执行初始化
+    if(!isValid())
+        return;
     makeCurrent();
     vbo.destroy();
     vao.destroy();
